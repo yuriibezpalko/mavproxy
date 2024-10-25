@@ -143,7 +143,7 @@ mavproxy.py --version
 #### 1. Connect Pixhawk with Raspberry Pi 4 via usb cable
 
 #### 2. Starting MAVProxy
-Replace `<serial_port>` and `<your_ip_address>` with your device's serial port and your IP address.
+Replace `<serial_port>` and `<your_ip_address from zerotier>` with your device's serial port and your IP address.
 ```bash
 mavproxy.py --master=/dev/<serial_port> --out=udpout:<your_ip_address>:14550
 ```
