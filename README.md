@@ -198,3 +198,4 @@ AP: PreArm: Waiting for RC
 ```
 
 #### 4. Check QGC
+![enter image description here](https://github.com/yuriibezpalko/mavproxy/blob/main/QGC.png?raw=true)
