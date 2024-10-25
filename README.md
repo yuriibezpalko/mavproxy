@@ -6,7 +6,7 @@ This guide provides step-by-step instructions to set up your remote Linux machin
 2. Install ZeroTier and join a specified network.
 3. Create a Python virtual environment.
 4. Install **MAVProxy** within the virtual environment.
-
+5. Establish a connection between Raspberry Pi and Pixhawk and GQC
 ---
 
 ## Prerequisites
@@ -14,7 +14,9 @@ This guide provides step-by-step instructions to set up your remote Linux machin
 - **SSH Access**: You need SSH access to the remote machine.
 - **Sudo Privileges**: The user should have sudo privileges.
 - **ZeroTier Network ID**: Obtain your ZeroTier network ID from [ZeroTier Central](https://my.zerotier.com/).
-
+- **Raspberry Pi 4**: You need a Raspberry Pi 4 running Raspberry Pi OS. You can obtain it from [Raspberry Pi OS](https://www.raspberrypi.com/software/).
+- **QGC**: GQC installed on your machine. Get it from [QGC Guide](https://docs.qgroundcontrol.com/master/en/qgc-user-guide/getting_started/download_and_install.html).
+- **Pixhawk**
 ---
 
 ## Steps
@@ -137,13 +139,62 @@ mavproxy.py --version
 ```
 
 ### Establish connection
-#### Starting MAVProxy
+
+#### 1. Connect Pixhawk with Raspberry Pi 4 via usb cable
+
+#### 2. Starting MAVProxy
 Replace `<serial_port>` and `<your_ip_address>` with your device's serial port and your IP address.
 ```bash
-sudo mavproxy.py --master=/dev/<serial_port> --out=udpout:<your_ip_address>:14550
+mavproxy.py --master=/dev/<serial_port> --out=udpout:<your_ip_address>:14550
 ```
 
 ##### Example:
 ```bash
-sudo mavproxy.py --master=/dev/ttyACM0 --out=udpout:192.168.1.10:14550
+mavproxy.py --master=/dev/ttyACM0 --out=udpout:192.168.1.10:14550
 ```
+
+
+##### Example Output:
+
+```bash
+WARNING: You should uninstall ModemManager as it conflicts with APM and Pixhawk
+Connect /dev/ttyACM0 source_system=255
+Failed to load module: No module named 'cmdlong'. Use 'set moddebug 3' in the MAVProxy console to enable traceback
+Failed to load module: No module named 'terrain'. Use 'set moddebug 3' in the MAVProxy console to enable traceback
+Log Directory:
+Telemetry log: mav.tlog
+Waiting for heartbeat from /dev/ttyACM0
+MAV> Detected vehicle 1:1 on link 0
+online system 1
+MANUAL> Mode MANUAL
+Got COMMAND_ACK: REQUEST_MESSAGE: ACCEPTED
+Got COMMAND_ACK: SET_MESSAGE_INTERVAL: ACCEPTED
+Got COMMAND_ACK: REQUEST_MESSAGE: FAILED
+AP: ArduPlane V4.5.4 (e8f937aa)
+AP: ChibiOS: 6a85082c
+AP: fmuv3 002A0019 51305002 2039324B
+AP: IOMCU: 410 2003 412FC231
+AP: RCOut: PWM:1-14
+AP: IMU0: fast sampling enabled 8.0kHz/1.0kHz
+Received 1247 parameters (ftp)
+Saved 1247 parameters to mav.parm
+Flight battery 100 percent
+AP: EKF3 waiting for GPS config data
+Got COMMAND_ACK: REQUEST_CAMERA_INFORMATION: UNSUPPORTED
+Got COMMAND_ACK: REQUEST_MESSAGE: FAILED
+FTP reply for mavlink component 190
+AP: ArduPlane V4.5.4 (e8f937aa)
+AP: ChibiOS: 6a85082c
+AP: fmuv3 002A0019 51305002 2039324B
+AP: IOMCU: 410 2003 412FC231
+AP: RCOut: PWM:1-14
+AP: IMU0: fast sampling enabled 8.0kHz/1.0kHz
+Got COMMAND_ACK: REQUEST_CAMERA_INFORMATION: UNSUPPORTED
+Got COMMAND_ACK: REQUEST_CAMERA_INFORMATION: UNSUPPORTED
+Got COMMAND_ACK: REQUEST_MESSAGE: ACCEPTED
+Got COMMAND_ACK: REQUEST_MESSAGE: ACCEPTED
+AP: PreArm: Waiting for RC
+...
+```
+
+#### 4. Check QGC
